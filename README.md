@@ -36,6 +36,7 @@ anime/manga/game/novel that reconciles differences across sources.
 | Python 3.12+ | Language |
 | [uv](https://docs.astral.sh/uv/) | Package and environment management |
 | [httpx](https://www.python-httpx.org/) | Async HTTP client for API calls |
+| [Pydantic](https://docs.pydantic.dev/) | Data validation and type-safe models |
 | [Supabase](https://supabase.com) | PostgreSQL database (hosted) |
 | [pyright](https://github.com/microsoft/pyright) | Static type checking (strict mode) |
 | [ruff](https://docs.astral.sh/ruff/) | Linting and formatting |
@@ -71,7 +72,7 @@ This creates a `.venv` virtual environment and installs all dependencies (includ
 Use `uv run` to execute scripts within the virtual environment:
 
 ```bash
-uv run python scripts/explore_jikan.py
+uv run python scripts/test_jikan_schema.py
 ```
 
 `uv run` automatically activates the virtual environment — no need to manually source `.venv/bin/activate`.
@@ -89,22 +90,25 @@ uv run pytest               # run tests
 
 ```
 otakulogs-data/
-├── src/otakulogs_data/     # Main package
-│   ├── sources/            # Data extraction (one module per API source)
-│   ├── transforms/         # Cleaning, normalizing, deduplication
-│   ├── loaders/            # Loading data into Supabase
-│   └── schema/             # Canonical data models and types
-├── scripts/                # Runnable exploration and pipeline scripts
-├── tests/                  # Test suite
-├── pyproject.toml          # Project config, dependencies, tool settings
-└── CLAUDE.md               # AI assistant context file
+├── src/otakulogs_data/          # Main package
+│   ├── sources/                 # Data extraction (one module per API source)
+│   ├── transforms/              # Cleaning, normalizing, deduplication
+│   ├── loaders/                 # Loading data into Supabase
+│   └── schema/                  # Data models and types
+│       ├── jikan_api_types.py   #   Pydantic models mirroring Jikan API responses
+│       └── jikan_database_types.py  #   Pydantic models for database rows
+├── scripts/                     # Runnable exploration and pipeline scripts
+│   └── create_jikan_tables.sql  #   DDL for Supabase (tables, indexes, triggers)
+├── tests/                       # Test suite
+├── pyproject.toml               # Project config, dependencies, tool settings
+└── CLAUDE.md                    # AI assistant context file
 ```
 
 ## Data Sources
 
 | Source | Status | Type | Notes |
 |--------|--------|------|-------|
-| [Jikan](https://jikan.moe) | In progress | REST API | Unofficial MAL wrapper. Rate-limited. Starting here. |
+| [Jikan](https://jikan.moe) | Schema done | REST API | Unofficial MAL wrapper. Rate-limited. Models + tables defined, extraction next. |
 | [AniList](https://anilist.co) | Planned | GraphQL API | Clean API, good docs. |
 | [MyAnimeList](https://myanimelist.net/apiconfig/references/api/v2) | Planned | REST API | Official. Requires OAuth. |
 | [AniDB](https://anidb.net) | Planned | HTTP API | Most granular metadata. Stricter access. |
