@@ -95,6 +95,7 @@ otakulogs-data/
 │   ├── transforms/              # API types → database rows
 │   │   └── jikan_anime_transform.py  #   Jikan anime transform function
 │   ├── loaders/                 # Loading data into Supabase
+│   │   └── jikan_anime_loader.py   #   Jikan anime upsert loader
 │   └── schema/                  # Data models and types
 │       ├── jikan_api_types.py   #   Pydantic models mirroring Jikan API responses
 │       └── jikan_database_types.py  #   Pydantic models for database rows
@@ -110,7 +111,7 @@ otakulogs-data/
 
 | Source | Status | Type | Notes |
 |--------|--------|------|-------|
-| [Jikan](https://jikan.moe) | Schema + Transform done | REST API | Unofficial MAL wrapper. Rate-limited. Models, tables, and transform defined. Loader next. |
+| [Jikan](https://jikan.moe) | Schema + Transform + Loader done | REST API | Unofficial MAL wrapper. Rate-limited. Full pipeline from API to Supabase. Extraction pipeline next. |
 | [AniList](https://anilist.co) | Planned | GraphQL API | Clean API, good docs. |
 | [MyAnimeList](https://myanimelist.net/apiconfig/references/api/v2) | Planned | REST API | Official. Requires OAuth. |
 | [AniDB](https://anidb.net) | Planned | HTTP API | Most granular metadata. Stricter access. |
