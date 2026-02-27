@@ -92,7 +92,8 @@ uv run pytest               # run tests
 otakulogs-data/
 ├── src/otakulogs_data/          # Main package
 │   ├── sources/                 # Data extraction (one module per API source)
-│   ├── transforms/              # Cleaning, normalizing, deduplication
+│   ├── transforms/              # API types → database rows
+│   │   └── jikan_anime_transform.py  #   Jikan anime transform function
 │   ├── loaders/                 # Loading data into Supabase
 │   └── schema/                  # Data models and types
 │       ├── jikan_api_types.py   #   Pydantic models mirroring Jikan API responses
@@ -100,6 +101,7 @@ otakulogs-data/
 ├── scripts/                     # Runnable exploration and pipeline scripts
 │   └── create_jikan_tables.sql  #   DDL for Supabase (tables, indexes, triggers)
 ├── tests/                       # Test suite
+│   └── test_jikan_anime_transform.py  #   Transform layer tests (34 tests)
 ├── pyproject.toml               # Project config, dependencies, tool settings
 └── CLAUDE.md                    # AI assistant context file
 ```
@@ -108,7 +110,7 @@ otakulogs-data/
 
 | Source | Status | Type | Notes |
 |--------|--------|------|-------|
-| [Jikan](https://jikan.moe) | Schema done | REST API | Unofficial MAL wrapper. Rate-limited. Models + tables defined, extraction next. |
+| [Jikan](https://jikan.moe) | Schema + Transform done | REST API | Unofficial MAL wrapper. Rate-limited. Models, tables, and transform defined. Loader next. |
 | [AniList](https://anilist.co) | Planned | GraphQL API | Clean API, good docs. |
 | [MyAnimeList](https://myanimelist.net/apiconfig/references/api/v2) | Planned | REST API | Official. Requires OAuth. |
 | [AniDB](https://anidb.net) | Planned | HTTP API | Most granular metadata. Stricter access. |
